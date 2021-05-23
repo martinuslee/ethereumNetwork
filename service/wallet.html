@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--- this is comment-->
+<html>
+  <head>
+    <!-- This Web page is able to connect with blockchain network using http protocol with web.js -->
+    <!-- Load Web3 -->
+    <script src="./web3.min.js"></script>
+  </head>
+  <body>
+    <div>
+      <h3>
+        Connecting web page using Web3.js with Blockchain network based on the
+        Etherieum
+      </h3>
+      <!-- 1. access Blockchain Network -->
+      <div>
+        <fieldset>
+          <p>Node information on the current blockchain network</p>
+          <!--when access the bc network, request node information-->
+          <input type="text" />
+        </fieldset>
+      </div>
+      <!-- 2. Get entire user list on the Network -->
+      <div></div>
+      <!-- 3. if input specific user address, output would be amount of currency occupied-->
+      <div></div>
+      <!-- 4. deposit currency choosing sender, receiver (emerged a single transaction)-->
+      <div></div>
+    </div>
+    <script>
+      var web3 = new Web3(
+        new Web3.providers.HttpProvider("http://127.0.0.1:7545")
+      );
+      console.log("--web load complete--");
+      console.log(web3);
+      console.log(web3.eth);
+      web3.eth.getNodeInfo((err, result) => {
+        if (!err) console.log('=>',err, result);
+      });
+    </script>
+    <button onclick="javascript:callup();">click</button>
+  </body>
+</html>
