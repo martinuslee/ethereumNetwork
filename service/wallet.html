@@ -19,15 +19,29 @@
         <fieldset>
           <p>Node information on the current blockchain network</p>
           <!--when access the bc network, request node information-->
-          <input type="text" id="nodeInfo" size="40"/>
+          <input type="text" id="nodeInfo" size="40" />
         </fieldset>
       </div>
       <!-- 2. Get entire user list on the Network -->
-      <div></div>
+      <div>
+        <!-- show the first user on the list -->
+        <fieldset>
+          <p>User List on the current blockchain network</p>
+          <p id="addr">Address</p>
+          <p id="bal">Balance</p>
+        </fieldset>
+      </div>
       <!-- 3. if input specific user address, output would be amount of currency occupied-->
       <div></div>
       <!-- 4. deposit currency choosing sender, receiver (emerged a single transaction)-->
-      <div></div>
+      <div>
+        <fieldset>
+          <input type="text" id="sender" placeholder="Account" /><br />
+          <input type="text" id="receiver" placeholder="Account" /><br />
+          <input type="number" id="amount" placeholder="ETH" /><br />
+          <button onclick="transfer();">Transfer</button>
+        </fieldset>
+      </div>
     </div>
     <script>
       // 1. Connect Etherieum
@@ -37,15 +51,51 @@
       console.log("--web load complete--");
       console.log(web3);
       console.log(web3.eth);
-      // 2. funtion(1)
+
+      // funtion(1)
       web3.eth.getNodeInfo((err, result) => {
-        if (!err) console.log('=>',err, result);
+        if (!err) console.log("=>", err, result);
         // 1. 조작할 요소를 특정하시오 -> css selector , xpath,..
         // $('css selector') <--> document.querySelector('css selector')
         // input tag -> val (value)
-        $('#nodeInfo').val(result)
+        $("#nodeInfo").val(result);
         // 2. Operate
       });
+
+      // function(2)
+      web3.eth.getAccounts(function (err, result) {
+        if (!err) {
+          console.log(err, result);
+          // 0번 유저의 계좌를 화면에 표시하시오 -> 화면조작
+          // 1. 특정 2. 조작
+          $("#addr").html(result[0]);
+          web3.eth.getBalance(result[0], (err, result) => {
+            console.log("balance : ", err, result);
+            // 1 ether => 1,000,000,000,000,000,000 wei
+            // fromWei , toWei
+            $("#bal").html(web3.utils.fromWei(result, "ether") + "ETH");
+          });
+        }
+      });
+
+      // function(3)
+      transfer = () => {
+        var paramObject = {
+          "from": $('#sender').val(),
+          "to": $('#receiver').val(),
+          "value": web3.utils.toWei($('#amount').val(), "ether")
+        };
+        console.log(paramObject)
+        // transaction
+        // trasaction 발생 -> 거래를 발생 -> Miner들의 업무가 부여됨
+        web3.eth.sendTransaction(paramObject, (err,result)=>{
+          if(!err){
+            console.log(result)
+          }
+        })
+      };
     </script>
   </body>
 </html>
+
+<!--0xcbFa9A945b3DD9A16b0A9b4FB75E75ff9813672d-->
