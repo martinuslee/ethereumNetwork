@@ -5,6 +5,8 @@
     <!-- This Web page is able to connect with blockchain network using http protocol with web.js -->
     <!-- Load Web3 -->
     <script src="./web3.min.js"></script>
+    <!-- JQuery to manipulate screen -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   </head>
   <body>
     <div>
@@ -17,7 +19,7 @@
         <fieldset>
           <p>Node information on the current blockchain network</p>
           <!--when access the bc network, request node information-->
-          <input type="text" />
+          <input type="text" id="nodeInfo" size="40"/>
         </fieldset>
       </div>
       <!-- 2. Get entire user list on the Network -->
@@ -28,16 +30,22 @@
       <div></div>
     </div>
     <script>
+      // 1. Connect Etherieum
       var web3 = new Web3(
         new Web3.providers.HttpProvider("http://127.0.0.1:7545")
       );
       console.log("--web load complete--");
       console.log(web3);
       console.log(web3.eth);
+      // 2. funtion(1)
       web3.eth.getNodeInfo((err, result) => {
         if (!err) console.log('=>',err, result);
+        // 1. 조작할 요소를 특정하시오 -> css selector , xpath,..
+        // $('css selector') <--> document.querySelector('css selector')
+        // input tag -> val (value)
+        $('#nodeInfo').val(result)
+        // 2. Operate
       });
     </script>
-    <button onclick="javascript:callup();">click</button>
   </body>
 </html>
